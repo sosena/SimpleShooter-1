@@ -20,8 +20,12 @@ var rockGroup = game.add.group();
 
     group.add(rockGroup);
 
-console.log("IN rock  create");
+    console.log("IN rock  create");
     this.cursors = game.input.keyboard.createCursorKeys();
+
+    rock.collide = function(){
+        this.destroy();
+    }
 
 }
 
@@ -32,9 +36,6 @@ console.log("IN rock  enemy");
 
 
 }
-   /* if (game.input.activePointer.isDown) {
-        /* move towards the mouse */
-       /* game.physics.arcade.moveToPointer(this, 60, game.input.activePointer, 500);
-    }*/
+   
 
 

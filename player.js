@@ -26,7 +26,15 @@ function Player(game, x, y) {
         right: game.input.keyboard.addKey(Phaser.Keyboard.D),
     }
 
+     this.collide = function(){
+        this.destroy();
+    }
+
 }
+/*
+Player.collide = function(){
+    this.destroy;
+}*/
 
 Player.prototype.update = function() {
 
@@ -71,8 +79,5 @@ Player.prototype.update = function() {
     }*/
 
 
-function killPlayer(player, enemy) {
 
-    kill.player();
 
-}
