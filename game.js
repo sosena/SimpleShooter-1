@@ -2,37 +2,36 @@
 var boundsX = 800, boundsY = 600;
 var game = new Phaser.Game(boundsX, boundsY, Phaser.AUTO, "game", {preload:preload, update:update, create:create});
 
-var ship;
+var player;
 var wasd;
 
 function preload () {
-    game.load.image('ship', 'ship.png');
+    game.load.image('player', 'ship.png');
     game.load.image('enemy', 'evil.png');
+    game.load.image('rock', 'rock.png');
+    game.load.image('view' , 'view.png');
 }
 
 function create() {
 
-    ship = new Ship(game , 50 , 50);
-    enemies = game.add.group();
+    game.add.tileSprite(0, 0, game.width, game.height, 'view');
 
-    for(i = 0 ; i < 10 ; i++){
-        enemy = new Enemy(game, enemies, 200 + i*70 , 200);
+    player = new Player(game , game.world.centerX , game.world.centerY);
+   // ship = new Ship(game , 50 , 50);
+    enemies = game.add.group();
+    rocks = game.add.group();
+
+    for(var i = 0 ; i < 10 ; i++){
+        enemy = new Enemy(enemies, game , game.world.randomX , game.world.randomY);
     }
 
+    for(var i = 0 ; i < 5 ; i++){
+        rock = new Rock(rocks, game.world.randomX, game.world.randomY);
+    }
    // ship = game.add.sprite(50, 50, 'ship');
 
   //  ship.anchor.setTo(0.5, 0.5);
     this.cursors = game.input.keyboard.createCursorKeys();
-
-    viewGroup = game.add.group();
-    
-
-    wasd = {
-        up: game.input.keyboard.addKey(Phaser.Keyboard.W),
-        down: game.input.keyboard.addKey(Phaser.Keyboard.S),
-        left: game.input.keyboard.addKey(Phaser.Keyboard.A),
-        right: game.input.keyboard.addKey(Phaser.Keyboard.D),
-    };
 }
 
 function collisionHandler(player, collider) {
@@ -41,8 +40,8 @@ function collisionHandler(player, collider) {
 }
 
 function update() {
-    console.log("collison");
-    game.physics.arcade.overlap(ship, enemy, collisionHandler, null, this);
+   // console.log("collison");
+    game.physics.arcade.overlap(player, enemy, collisionHandler, null, this);
     //var mX = game.input.mousePointer.x;
     //var mY = game.input.mousePointer.y;
     /* look at the mouse */
