@@ -4,6 +4,7 @@ var game = new Phaser.Game(boundsX, boundsY, Phaser.AUTO, "game", {preload:prelo
 
 var player;
 var enemy;
+var rock;
 var ship;
 var wasd;
 
@@ -25,26 +26,35 @@ function create() {
     rocks = game.add.group();
 
     for(var i = 0 ; i < 10 ; i++){
-        enemy = new Enemy(enemies, game , game.world.randomX , game.world.randomY);
+        enemy = new Enemy(game , game.world.randomX , game.world.randomY);
     }
 
     for(var i = 0 ; i < 5 ; i++){
-        rock = new Rock(rocks, game.world.randomX, game.world.randomY);
+        rock = new Rock(game , game.world.randomX, game.world.randomY);
     }
-   // ship = game.add.sprite(50, 50, 'ship');
 
-  //  ship.anchor.setTo(0.5, 0.5);
     this.cursors = game.input.keyboard.createCursorKeys();
 }
 
 
+function update() {
+  console.log("in UPDATE!")
+   var bool =  game.physics.arcade.overlap(player, enemies, killPlayer, null, this);
+   console.log(bool);
+   var update = game.physics.arcade.overlap(ship, rocks, destroyRock, null, this);
+    console.log(update);
+}
+
+
+/*
 
 function update() {
 
+    console.log("IN UPDATE!")
 
    enemies.forEach(function(item) {
-     item.update();
-   //  game.physics.arcade.collide(item, player);
+
+     game.physics.arcade.collide();
      game.physics.arcade.overlap(player, item, killPlayer, null , this);
     });
 
@@ -52,13 +62,14 @@ function update() {
        game.physics.arcade.overlap(ship, item, distroyRock, null , this);
     });
 }
+*/
 function killPlayer(player, collider) {
-    console.log("collison");
+  console.log("in killPlayer");
     player.collide();
 }
 
-function distroyRock(ship, collider) {
-    console.log("collison");
+function destroyRock(ship, collider) {
+  console.log("in distroyRock")
     collider.collide();
 }
 
